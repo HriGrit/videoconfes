@@ -1,0 +1,25 @@
+@keyframes slidein {
+    0%{
+        transform: translateX(100%);
+    }
+    25%{
+        transform: translateX(0%);
+    }
+    50%{
+        transform: translateX(90%);
+        transform: scale(0.8);
+    }
+    75%{
+        transform: scale(1.1);
+    }
+}
+
+.smooth-butter{
+    animation: slidein 0.5s linear;
+}
+
+.font2 {background: linear-gradient(to top, rgb(255, 234, 130,0.), #FFDD35, rgba(255, 168, 0,0.8));}
+
+.font1 {
+    background: linear-gradient(to top, rgba(255, 157, 65, 0.9),rgb(255, 71, 51));
+}
