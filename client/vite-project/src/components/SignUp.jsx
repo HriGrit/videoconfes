@@ -4,13 +4,16 @@ import search from "../assets/search.svg"
 import f from "../assets/f.svg"
 import apple from "../assets/apple.svg"
 import cancel from "../assets/cancel.svg"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseauth";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
-    const [loginEmail, setLoginEmail] = useState("");
-    const [loginPassword, setLoginPassword] = useState("");
+    const [registerEmail, setRegisterEmail] = useState("");
+    const [registerPassword, setRegisterPassword] = useState("");
+    const [registerPassword2, setRegisterPassword2] = useState("");
+
+    const [issamepassword, setIssamepassword] = useState(true);
 
     const [ispossible, setIspossible] = useState(true)
 
@@ -36,16 +39,21 @@ const SignIn = () => {
         setIspossible(!ispossible);
     };
 
-    const login = async (e) => {
-        try {
-            e.preventDefault();
-            const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-            console.log(user);
-        } catch (err) {
-            console.log(err);
+    const register = async (e) => {
+        e.preventDefault();
+        if (registerPassword !== registerPassword2) {
+            setIssamepassword(false);
+        } else {
+            setIssamepassword(true);
+            try {
+                const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+                console.log(user);
+            } catch (err) {
+                console.log(err);
+            }
         }
-    }
-
+    };
+    console.log(issamepassword);
     return (
 
         <div className="h-full">
@@ -67,16 +75,22 @@ const SignIn = () => {
                 <form>
                     <div className="grid grid-cols-5 text-4xl ml-[10%] mb-[5%]">
                         <label className="col-span-2" htmlFor="email">Email</label>
-                        <input className="col-span-2 text-2xl p-2 rounded-lg w-[100%] border-black border-2 " type="email" name="email" id="email" placeholder='user@example.com' onChange={(e) => setLoginEmail(e.target.value)} />
+                        <input className="col-span-2 text-2xl p-2 rounded-lg w-[100%] border-black border-2 " type="email" name="email" id="email" placeholder='user@example.com' onChange={(e) => setRegisterEmail(e.target.value)} />
                     </div>
                     <div className="grid grid-cols-5 text-4xl ml-[10%] mb-[5%]">
                         <label className="col-span-2" htmlFor="password">Password</label>
-                        <input className="col-span-2 border-black border-2 text-2xl p-2 rounded-lg" type="password" name="password" id="password" placeholder='*********' onChange={(e) => setLoginPassword(e.target.value)} />
+                        <input className="col-span-2 border-black border-2 text-2xl p-2 rounded-lg" type="password" name="password" id="password" placeholder='*********' onChange={(e) => setRegisterPassword(e.target.value)} />
                     </div>
-                    <div className='flex justify-center '>
-                        <div className="text-3xl  w-fit bg-white p-2 rounded-2xl px-[5%]">
-                            <button type="submit" onClick={login}>Sign In</button>
+                    <div className="grid grid-cols-5 text-4xl ml-[10%] mb-[5%]">
+                        <label className="col-span-2" htmlFor="password">Password</label>
+                        <input className="col-span-2 border-black border-2 text-2xl p-2 rounded-lg" type="password" name="password2" id="password2" placeholder='*********'
+                            onChange={(e) => setRegisterPassword2(e.target.value)} />
+                    </div>
+                    <div className='flex flex-row justify-around justify-center mx-12'>
+                        <div className="text-3xl  w-fit bg-white p-2 rounded-2xl px-[5%] cursor-pointer">
+                            <button type="submit" onClick={register}>Sign Up</button>
                         </div>
+                        {!issamepassword && (<div className="bg-red-200 p-2 rounded-lg"> Password is not same </div>)}
                     </div>
                 </form>
             </div>
@@ -84,21 +98,21 @@ const SignIn = () => {
             <div className='mx-[10%] mt-[5%] flex flex-row justify-between'>
                 <div className='flex flex-row bg-white  p-2 rounded-lg'>
                     <img width="30px" src={search}></img>
-                    <label className='ml-[15px] text-xl'>Google Sign in</label>
+                    <label className='ml-[15px] text-xl'>Google Sign Up</label>
                 </div>
                 <div className='flex flex-row bg-white  p-2 rounded-lg'>
                     <img width="30px" src={f}></img>
-                    <label className='ml-[15px] text-xl'>Facebook Sign in</label>
+                    <label className='ml-[15px] text-xl'>Facebook Sign Up</label>
                 </div>
                 <div className='flex flex-row bg-white  p-2 rounded-lg'>
                     <img width="30px" src={apple}></img>
-                    <label className='ml-[15px] text-xl'>Apple Sign in</label>
+                    <label className='ml-[15px] text-xl'>Apple Sign Up</label>
                 </div>
             </div>
             <div>
                 <div className='flex flex-row justify-center mt-[9%]'>
                     <label className='text-2xl'>Don't have an account? </label>
-                    <Link to="/signup">
+                    <Link to="/">
                         <label className='text-2xl text-blue-500'>Sign Up</label>
                     </Link>
                 </div>

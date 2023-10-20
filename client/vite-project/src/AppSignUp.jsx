@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import './App.css'
-import Login from './components/Login'
+import SignUp from './components/SignUp'
 import Picture from './components/Picture'
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
                 <Picture />
             </div>
             <div className='gradient2 w-[60%]'>
-                <Login />
+                <SignUp />
             </div>
         </div>
     )
