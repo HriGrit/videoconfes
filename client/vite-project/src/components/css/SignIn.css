@@ -23,3 +23,7 @@
 .font1 {
     background: linear-gradient(to top, rgba(255, 157, 65, 0.9),rgb(255, 71, 51));
 }
+
+*{
+    overflow: hidden;
+}
